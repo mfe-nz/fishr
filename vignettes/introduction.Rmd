@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 library(fishr)
 library(tidyverse)
 library(lubridate)
+library(quantreg)
+library(sf)
 ```
 
 ## Sourcing data
@@ -91,12 +93,30 @@ qr.5.penet <- qr.construct("metric5", "penet")
 
 ### Adding on scored metrics
 ```{r}
-site_metrics %>% 
+ibi_scores_backpack_1999_2018 <- site_metrics %>% 
   add.fish.metrics() %>% 
   add.fish.metric6() %>% 
   add.fish.ibi() %>% 
   cut.fish.ibi()
 ```
 
+
+## Plotting
+
+### Maps
+
+```{r}
+ibi_scores_backpack_1999_2018 %>% 
+  st_as_sf(coords = c("east", "north"), crs = 27200) %>% 
+  st_transform(2193) %>% 
+  ggplot() +
+  geom_sf(data = regions) +
+  geom_sf(aes(colour = ibi_score_cut)) +
+  theme_void() +
+  scale_colour_viridis_d(direction = -1)
+  
+```
+
+### Figures
 
 
