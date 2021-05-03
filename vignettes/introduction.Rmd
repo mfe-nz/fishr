@@ -1,0 +1,102 @@
+---
+title: "introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(fishr)
+library(tidyverse)
+library(lubridate)
+```
+
+## Sourcing data
+
+To-do
+
+## Pre-processing
+
+```{r}
+fish2 <- fish %>%
+  add.fish.dates() %>% 
+  add.fish.method() %>% 
+  add.fish.names()
+```
+
+## Calculate site metrics
+
+### Calculate all years
+
+```{r}
+site_metrics_all <- fish2 %>% 
+  filter(Method == "Backpack") %>% 
+  filter(nzreach > 10) %>% 
+  prep.site.metrics()
+```
+
+
+### Calculate years of interest
+
+```{r}
+site_metrics <- fish2 %>% 
+  filter(Method == "Backpack") %>% 
+  filter(nzreach > 10) %>% 
+  filter(y >= 1999, y <= 2018) %>% 
+  prep.site.metrics()
+```
+
+Test to see it has worked
+
+```{r}
+site_metrics %>% 
+  ggplot(aes(altitude, metric1)) +
+  geom_point()
+
+site_metrics %>% 
+  ggplot(aes(penet, metric1)) +
+  geom_point()
+```
+
+### Fit quantile regressions
+
+#### Altitude
+
+```{r}
+qr.1.elev <- qr.construct("metric1", "altitude")
+qr.2.elev <- qr.construct("metric2", "altitude")
+qr.3.elev <- qr.construct("metric3", "altitude")
+qr.4.elev <- qr.construct("metric4", "altitude")
+qr.5.elev <- qr.construct("metric5", "altitude")
+```
+
+#### Penetration
+
+```{r}
+qr.1.penet <- qr.construct("metric1", "penet")
+qr.2.penet <- qr.construct("metric2", "penet")
+qr.3.penet <- qr.construct("metric3", "penet")
+qr.4.penet <- qr.construct("metric4", "penet")
+qr.5.penet <- qr.construct("metric5", "penet")
+```
+
+### Adding on scored metrics
+```{r}
+site_metrics %>% 
+  add.fish.metrics() %>% 
+  add.fish.metric6() %>% 
+  add.fish.ibi() %>% 
+  cut.fish.ibi()
+```
+
+
+
