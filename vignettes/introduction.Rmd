@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 
 source("../functions/functions.r")
 library(tidyverse)
+library(dplyr)
 library(lubridate)
 library(quantreg)
 library(sf)
@@ -28,7 +29,13 @@ library(sf)
 
 ## Sourcing data
 
-To-do
+```{r}
+load("../data/fish.rda")
+load("../data/fish_methods.rda")
+load("../data/fish_names.rda")
+load("../data/species_ibi_metrics.rda")
+```
+
 
 ## Pre-processing
 
@@ -110,14 +117,16 @@ ibi_scores_backpack_1999_2018 <- site_metrics %>%
 ### Maps
 
 ```{r}
-ibi_scores_backpack_1999_2018 %>% 
-  st_as_sf(coords = c("east", "north"), crs = 27200) %>% 
-  st_transform(2193) %>% 
-  ggplot() +
-  geom_sf(data = regions) +
-  geom_sf(aes(colour = ibi_score_cut)) +
-  theme_void() +
-  scale_colour_viridis_d(direction = -1)
+# missing the regions data for this to run
+
+# ibi_scores_backpack_1999_2018 %>% 
+#   st_as_sf(coords = c("east", "north"), crs = 27200) %>% 
+#   st_transform(2193) %>% 
+#   ggplot() +
+#   geom_sf(data = regions) +
+#   geom_sf(aes(colour = ibi_score_cut)) +
+#   theme_void() +
+#   scale_colour_viridis_d(direction = -1)
   
 ```
 
