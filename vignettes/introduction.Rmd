@@ -15,7 +15,11 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(fishr)
+# this library does not work therefore I am sourcing the functions that have
+# been created already
+#library(fishr)
+
+source("../functions/functions.r")
 library(tidyverse)
 library(lubridate)
 library(quantreg)
