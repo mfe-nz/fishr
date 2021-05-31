@@ -20,7 +20,10 @@ knitr::opts_chunk$set(
 #library(fishr)
 
 source("../functions/functions.r")
+library(tidyverse)
 library(dplyr)
+library(lubridate)
+library(quantreg)
 library(sf)
 ```
 
@@ -33,13 +36,7 @@ load("../data/fish_names.rda")
 load("../data/species_ibi_metrics.rda")
 ```
 
-## Testing
 
-```{r}
-## these are the specific columns that are needed ?? does this throw an error if not there
-fish <- fish %>% 
-  select("m", "y", "locality", "east", "north", "altitude", "penet", "fishmeth", "spcode", "nzreach")
-```
 ## Pre-processing
 
 ```{r}
