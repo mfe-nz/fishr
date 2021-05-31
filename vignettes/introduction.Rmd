@@ -15,31 +15,16 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-# this library does not work therefore I am sourcing the functions that have
-# been created already
-#library(fishr)
-
-source("../functions/functions.r")
-library(dplyr)
+library(fishr)
+library(tidyverse)
+library(lubridate)
+library(quantreg)
 library(sf)
 ```
 
 ## Sourcing data
 
-```{r}
-load("../data/fish.rda")
-load("../data/fish_methods.rda")
-load("../data/fish_names.rda")
-load("../data/species_ibi_metrics.rda")
-```
-
-## Testing
-
-```{r}
-## these are the specific columns that are needed ?? does this throw an error if not there
-fish <- fish %>% 
-  select("m", "y", "locality", "east", "north", "altitude", "penet", "fishmeth", "spcode", "nzreach")
-```
+To-do
 
 ## Pre-processing
 
@@ -80,7 +65,7 @@ site_metrics %>%
   geom_point()
 
 site_metrics %>% 
-  ggplot(aes(penet, metric1)) +
+  ggplot(aes(enet, metric1)) +
   geom_point()
 ```
 
@@ -121,19 +106,16 @@ ibi_scores_backpack_1999_2018 <- site_metrics %>%
 ### Maps
 
 ```{r}
-# missing the regions data for this to run
-
-# ibi_scores_backpack_1999_2018 %>% 
-#   st_as_sf(coords = c("east", "north"), crs = 27200) %>% 
-#   st_transform(2193) %>% 
-#   ggplot() +
-#   geom_sf(data = regions) +
-#   geom_sf(aes(colour = ibi_score_cut)) +
-#   theme_void() +
-#   scale_colour_viridis_d(direction = -1)
+ibi_scores_backpack_1999_2018 %>% 
+  st_as_sf(coords = c("east", "north"), crs = 27200) %>% 
+  st_transform(2193) %>% 
+  ggplot() +
+  geom_sf(data = regions) +
+  geom_sf(aes(colour = ibi_score_cut)) +
+  theme_void() +
+  scale_colour_viridis_d(direction = -1)
   
 ```
 
 ### Figures
-
 

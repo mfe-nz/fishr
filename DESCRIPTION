@@ -1,17 +1,25 @@
 Package: fishr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Calculates fish IBI for New Zealand fish communities
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Isaac Bain
+Maintainer: Isaac Bain <isaac.bain@mfe.govt.nz>
+Description: This repo contains code to implement methods proposed by Joy and
+    Death (2004) for calculating a Index of Biotic Integrity with application to
+    New Zealand fish communities. It also updates these methods by utilising quantile
+    regression to define the Maximum Species Richness Lines (used for scoring metrics),
+    as first used by Joy (2007) for the Waikato region.
+License: CC BY 4.0 
 Encoding: UTF-8
 LazyData: true
 Depends: 
     R (>= 2.10)
 RoxygenNote: 7.1.1
+Imports: 
+    tidyverse,
+    lubridate,
+    quantreg,
+    sf
 Suggests: 
     knitr,
     rmarkdown
