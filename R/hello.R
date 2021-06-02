@@ -52,7 +52,8 @@ prep.site.metrics <- function(.data){
       metric4 = sum(pelagic_pool, na.rm = T),
       metric5 = sum(intolerant, na.rm = T),
       number_non_native = sum(non_native, na.rm = T),
-      metric6 = metric1 / number_non_native
+      # proportion of alien species ?? non_native/total??
+      metric6 = metric1 / (matric1 + number_non_native)
     )
 }
 
@@ -112,9 +113,10 @@ add.fish.metrics <- function(.data){
 add.fish.metric6 <- function(.data){
   .data %>%
     mutate(metric6_rating = case_when(
+      # these values are coming from table 3 on page 421
       metric6 > 0.67 ~ 5,
-      metric6 > 0.33 ~ 3,
-      metric6 <= 0.33 ~ 1
+      metric6 >= 0.33 ~ 3,
+      metric6 < 0.33 ~ 1
     ))
 }
 

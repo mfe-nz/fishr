@@ -20,11 +20,23 @@ library(tidyverse)
 library(lubridate)
 library(quantreg)
 library(sf)
+source("../R/hello.R")
 ```
 
 ## Sourcing data
+```{r}
+load("../data/fish.rda")
+load("../data/fish_methods.rda")
+load("../data/fish_names.rda")
+load("../data/species_ibi_metrics.rda")
+```
+## Testing
 
-To-do
+```{r}
+## these are the specific columns that are needed ?? does this throw an error if not there
+fish <- fish %>% 
+  select("m", "y", "locality", "east", "north", "altitude", "penet", "fishmeth", "spcode", "nzreach")
+```
 
 ## Pre-processing
 
@@ -65,7 +77,7 @@ site_metrics %>%
   geom_point()
 
 site_metrics %>% 
-  ggplot(aes(enet, metric1)) +
+  ggplot(aes(penet, metric1)) +
   geom_point()
 ```
 
