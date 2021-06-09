@@ -52,8 +52,7 @@ prep.site.metrics <- function(.data){
       metric4 = sum(pelagic_pool, na.rm = T),
       metric5 = sum(intolerant, na.rm = T),
       number_non_native = sum(non_native, na.rm = T),
-      # proportion of alien species ?? non_native/total??
-      metric6 = metric1 / (matric1 + number_non_native)
+      metric6 = metric1/number_non_native
     )
 }
 
