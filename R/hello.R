@@ -5,7 +5,7 @@
 #' @export
 add.fish.names <- function(.data){
   .data %>%
-    left_join(fish_names, by = c("spcode" = "NZFFD code"))
+    left_join(fish_names, by = c("SpeciesCode" = "NZFFD code"))
 }
 
 
@@ -37,14 +37,14 @@ add.fish.dates <- function(.data){
 #' @export
 prep.site.metrics <- function(.data){
   .data %>%
-    group_by(nzreach) %>%
-    distinct(spcode, .keep_all = TRUE) %>%
-    inner_join(species_ibi_metrics, by = "spcode") %>%  # filtering to only species with metric info. change to left_join to get all.
+    group_by(Stratum) %>%
+    distinct(SpeciesCode, .keep_all = TRUE) %>%
+    inner_join(species_ibi_metrics, by = c("SpeciesCode" = "spcode")) %>%  # filtering to only species with metric info. change to left_join to get all.
     summarise(
-      altitude = first(altitude),
-      penet = first(penet),
-      east = first(east),
-      north = first(north),
+      altitude = first(Altitude),
+      penet = first(Penetration),
+      # east = first(east),
+      #  north = first(north),
       total_sp_richness = n(),
       metric1 = sum(native, na.rm = T),
       metric2 = sum(benthic_riffle, na.rm = T),
@@ -63,6 +63,7 @@ prep.site.metrics <- function(.data){
 #'
 #' @export
 #'
+#'why is site_metrics_all being specified here, look at the intro vignette re this
 qr.construct <- function(y, x, data = site_metrics_all){
   rq(paste(y, x, sep = " ~ "), tau = c(1/3, 2/3), data = data)
 }
