@@ -24,11 +24,13 @@ source("../R/hello.R")
 ```
 
 ## Sourcing data
+
 ```{r}
-load("../data/fish.rda")
-load("../data/fish_methods.rda")
-load("../data/fish_names.rda")
-load("../data/species_ibi_metrics.rda")
+verb <- T
+load("../data/fish.rda", v=verb)
+load("../data/fish_methods.rda", v=verb)
+load("../data/fish_names.rda", v=verb)
+load("../data/species_ibi_metrics.rda", v=verb)
 ```
 ## Testing
 
@@ -44,7 +46,8 @@ fish <- fish %>%
 fish2 <- fish %>%
   add.fish.dates() %>% 
   add.fish.method() %>% 
-  add.fish.names()
+    add.fish.names()
+
 ```
 
 ## Calculate site metrics
@@ -55,7 +58,7 @@ fish2 <- fish %>%
 site_metrics_all <- fish2 %>% 
   filter(Method == "Backpack") %>% 
   filter(nzreach > 10) %>% 
-  prep.site.metrics()
+    prep.site.metrics()
 ```
 
 
