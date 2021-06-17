@@ -154,3 +154,13 @@ cut.fish.ibi <- function(.data){
                                                                                 "Medium quality",
                                                                                 "High quality")))
 }
+
+nps <- function(.data){
+  .data %>% 
+    mutate(nps_score = case_when(
+      ibi_score >= 34 ~ "A",
+      ibi_score >= 28 ~ "B",
+      ibi_score >= 18 ~ "C",
+      ibi_score < 18 ~ "D"
+    ))
+}
