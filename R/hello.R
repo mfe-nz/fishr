@@ -5,7 +5,7 @@
 #' @export
 add.fish.names <- function(.data){
   .data %>%
-    left_join(fish_names, by = c("spcode" = "NZFFD code"))
+    left_join(fish_names, by = c("SpeciesCode" = "NZFFD code"))
 }
 
 
@@ -37,14 +37,14 @@ add.fish.dates <- function(.data){
 #' @export
 prep.site.metrics <- function(.data){
   .data %>%
-    group_by(nzreach) %>%
-    distinct(spcode, .keep_all = TRUE) %>%
-    inner_join(species_ibi_metrics, by = "spcode") %>%  # filtering to only species with metric info. change to left_join to get all.
+    group_by(Stratum) %>%
+    distinct(SpeciesCode, .keep_all = TRUE) %>%
+    inner_join(species_ibi_metrics, by = c("SpeciesCode" = "spcode")) %>%  # filtering to only species with metric info. change to left_join to get all.
     summarise(
-      altitude = first(altitude),
-      penet = first(penet),
-      east = first(east),
-      north = first(north),
+      altitude = first(Altitude),
+      penet = first(Penetration),
+      # east = first(east),
+      #  north = first(north),
       total_sp_richness = n(),
       metric1 = sum(native, na.rm = T),
       metric2 = sum(benthic_riffle, na.rm = T),
@@ -52,7 +52,7 @@ prep.site.metrics <- function(.data){
       metric4 = sum(pelagic_pool, na.rm = T),
       metric5 = sum(intolerant, na.rm = T),
       number_non_native = sum(non_native, na.rm = T),
-      metric6 = metric1/number_non_native
+      metric6 = metric1/(number_non_native + metric1)
     )
 }
 
@@ -63,6 +63,7 @@ prep.site.metrics <- function(.data){
 #'
 #' @export
 #'
+#'why is site_metrics_all being specified here, look at the intro vignette re this
 qr.construct <- function(y, x, data = site_metrics_all){
   rq(paste(y, x, sep = " ~ "), tau = c(1/3, 2/3), data = data)
 }
@@ -152,4 +153,14 @@ cut.fish.ibi <- function(.data){
     mutate(ibi_score_cut = cut(ibi_score, breaks = c(0, 20, 40, 60), labels = c("Low quality",
                                                                                 "Medium quality",
                                                                                 "High quality")))
+}
+
+nps <- function(.data){
+  .data %>% 
+    mutate(nps_score = case_when(
+      ibi_score >= 34 ~ "A",
+      ibi_score >= 28 ~ "B",
+      ibi_score >= 18 ~ "C",
+      ibi_score < 18 ~ "D"
+    ))
 }
