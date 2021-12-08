@@ -20,11 +20,25 @@ library(tidyverse)
 library(lubridate)
 library(quantreg)
 library(sf)
+source("../R/hello.R")
 ```
 
 ## Sourcing data
 
-To-do
+```{r}
+verb <- T
+load("../data/fish.rda", v=verb)
+load("../data/fish_methods.rda", v=verb)
+load("../data/fish_names.rda", v=verb)
+load("../data/species_ibi_metrics.rda", v=verb)
+```
+## Testing
+
+```{r}
+## these are the specific columns that are needed ?? does this throw an error if not there
+fish <- fish %>% 
+  select("m", "y", "locality", "east", "north", "altitude", "penet", "fishmeth", "spcode", "nzreach")
+```
 
 ## Pre-processing
 
@@ -32,7 +46,8 @@ To-do
 fish2 <- fish %>%
   add.fish.dates() %>% 
   add.fish.method() %>% 
-  add.fish.names()
+    add.fish.names()
+
 ```
 
 ## Calculate site metrics
@@ -43,7 +58,7 @@ fish2 <- fish %>%
 site_metrics_all <- fish2 %>% 
   filter(Method == "Backpack") %>% 
   filter(nzreach > 10) %>% 
-  prep.site.metrics()
+    prep.site.metrics()
 ```
 
 
@@ -118,5 +133,4 @@ ibi_scores_backpack_1999_2018 %>%
 ```
 
 ### Figures
-
 
